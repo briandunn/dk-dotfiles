@@ -786,6 +786,19 @@ require('lazy').setup({
     opts = {},
   },
 
+  -- sonic-pi
+  {
+    'magicmonty/sonicpi.nvim',
+    dir = '/Users/brian/src/sonicpi.nvim',
+    opts = {
+      server_dir = '/Applications/Sonic Pi.app/Contents/Resources/server',
+    },
+    dependencies = {
+      'hrsh7th/nvim-cmp',
+      'nvim-tree/nvim-web-devicons',
+    },
+  },
+
   -- notifications
   {
     'rcarriga/nvim-notify',

@@ -161,6 +161,7 @@ M.setup = function()
       { name = 'nvim_lsp' },
       { name = 'luasnip' },
       { name = 'path' },
+      { name = 'sonicpi' },
     }, {
       all_buffers_completion_source,
       { name = 'emoji' },

@@ -24,6 +24,8 @@ M.on_attach = function(client, bufnr)
     vim.lsp.buf_detach_client(bufnr, client.id)
   end
 
+  require('sonicpi').lsp_on_init(client, { server_dir = '/Applications/Sonic Pi.app/Contents/Resources/server' })
+
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
   require('core.mappings').lsp_mappings()
