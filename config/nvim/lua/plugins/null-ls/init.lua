@@ -8,6 +8,13 @@ end
 
 local M = {}
 
+local string_in_file_condition = function(string, file)
+  return function(_utils)
+    local cmd = { 'rg', string, file }
+    return not ('' == vim.fn.system(cmd))
+  end
+end
+
 M.setup = function()
   local b = null_ls.builtins
 
@@ -18,7 +25,6 @@ M.setup = function()
       ----------------------
       --   Code Actions   --
       ----------------------
-      b.code_actions.eslint_d,
       b.code_actions.shellcheck,
       b.code_actions.gomodifytags,
 
@@ -28,8 +34,15 @@ M.setup = function()
       b.diagnostics.actionlint,
       b.diagnostics.codespell,
 
-      b.diagnostics.eslint_d,
-      b.diagnostics.rubocop,
+      b.diagnostics.eslint_d.with {
+        condition = string_in_file_condition('eslint', 'package.json'),
+      },
+      b.diagnostics.rubocop.with {
+        condition = string_in_file_condition('rubocop', 'Gemfile'),
+      },
+      b.diagnostics.standardrb.with {
+        condition = string_in_file_condition('standard', 'Gemfile'),
+      },
       b.diagnostics.shellcheck,
       b.diagnostics.yamllint,
       b.diagnostics.zsh,
@@ -38,7 +51,6 @@ M.setup = function()
       ----------------------
       --    Formatters    --
       ----------------------
-      b.formatting.clang_format,
       b.formatting.gofmt,
       b.formatting.goimports,
 
@@ -64,12 +76,12 @@ M.setup = function()
       },
       b.formatting.pg_format,
       b.formatting.prettierd.with {
-        extra_filetypes = { 'ruby' },
         disabled_filetypes = { 'markdown' },
       },
       b.formatting.prettier.with {
         filetypes = { 'markdown' },
       },
+      b.formatting.standardrb,
       b.formatting.shfmt,
       b.formatting.stylua,
       b.formatting.xq.with {
