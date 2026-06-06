@@ -80,6 +80,14 @@ return {
       markdown = dprint_or_prettier,
       html = dprint_or_prettier,
       go = { 'gofmt', 'goimports' },
+      -- For Standard projects (.standard.yml), return no formatters so
+      -- lsp_format = 'fallback' kicks in and standardrb LSP handles formatting.
+      -- For plain RuboCop projects, use rubocop. Otherwise fall back to rubyfmt.
+      ruby = get_with_fallback(
+        { '.standard.yml' },
+        {},
+        get_with_fallback({ '.rubocop.yml' }, { 'rubocop' }, { 'rubyfmt' })
+      ),
       sql = { 'pg_format' },
       yaml = dprint_or_prettier,
       -- mix format is taking long to format, so I bumped the timeout, I'm not
